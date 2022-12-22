@@ -1,5 +1,8 @@
+import { useState } from "react"
+import Counter from "./components/Counter/Counter"
+
 const App = () => {
-  return <p className="text-3xl font-bold">{'<App />'}</p>;
+  return <Counter />
 };
 
 export default App;
