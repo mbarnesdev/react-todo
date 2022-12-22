@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { isDarkModeAtom } from "./atoms"
+import { isDarkModeAtom } from "@/atoms"
 import cx from "classnames"
 
 const App = () => {
