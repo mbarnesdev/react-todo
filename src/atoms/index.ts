@@ -1,1 +1,1 @@
-export * from "./themeAtoms"
+export * from './themeAtoms';

@@ -5,3 +5,7 @@
 .dark-mode {
   color: gray;
 }
+
+.todo-completed {
+  text-decoration: line-through;
+}

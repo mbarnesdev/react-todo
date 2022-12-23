@@ -1,18 +1,25 @@
-import { useQuery } from "@tanstack/react-query"
-import { fetchTodos } from "@/features/TodoList"
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllTodos, TodoItem, TodoForm } from '@/features/TodoList';
+import type { Todo } from '@/features/TodoList';
 
 const TodoList = () => {
-  const { data, isFetching, isError, error } = useQuery(["fetch-todos"], fetchTodos)
+  const { data, isLoading, isError, error } = useQuery(
+    ['fetch-all-todos'],
+    fetchAllTodos,
+  );
 
-  if (isFetching) return <p>Fetching...</p>
+  if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Error... {JSON.stringify(error)}</p>
+  if (isError) return <pre>{JSON.stringify(error)}</pre>;
 
   return (
     <div>
-      <pre>{JSON.stringify(data)}</pre>
+      <TodoForm />
+      {data.map((todo: Todo) => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default TodoList
+export default TodoList;

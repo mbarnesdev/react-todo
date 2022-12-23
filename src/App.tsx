@@ -1,7 +1,7 @@
-import { TodoList } from "@/features/TodoList"
+import { TodoList } from '@/features/TodoList';
 
 const App = () => {
-  return <TodoList />
-}
+  return <TodoList />;
+};
 
-export default App
+export default App;
