@@ -1,3 +1,3 @@
-import { atom } from "jotai"
+import { atomWithStorage } from "jotai/utils"
 
-export const isDarkModeAtom = atom<boolean>(false)
+export const isDarkModeAtom = atomWithStorage<boolean>("is-dark-mode-enabled", false)
