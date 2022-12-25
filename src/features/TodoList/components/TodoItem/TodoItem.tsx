@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { removeTodo, updateTodo } from '@/features/TodoList';
+import { TbTrash } from 'react-icons/tb';
 import cn from 'classnames';
 import type { FC } from 'react';
 import type { Todo } from '@/features/TodoList';
 
 const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
   const { id, content, completed } = todo;
-  const titleClassnames = cn({ 'todo-completed': completed });
+  const titleClassnames = cn('cursor-pointer', { 'todo-completed': completed });
 
   const queryClient = useQueryClient();
 
@@ -29,10 +30,14 @@ const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
   const handleUpdateTodo = () => mutateUpdate(id);
 
   return (
-    <div className="flex flex-row gap-10 p-5 border border-black max-w-max m-2">
-      <p className={titleClassnames}>{content}</p>
-      <button onClick={handleRemoveTodo}>Remove</button>
-      <button onClick={handleUpdateTodo}>Update</button>
+    <div className="flex flex-row justify-between items-center py-4-">
+      <p className={titleClassnames} onClick={handleUpdateTodo}>
+        {content}
+      </p>
+
+      <button onClick={handleRemoveTodo}>
+        <TbTrash size={25} />
+      </button>
     </div>
   );
 };

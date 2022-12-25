@@ -3,12 +3,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addTodo } from '@/features/TodoList';
+import { TbPlus } from 'react-icons/tb';
 import type { Todo } from '@/features/TodoList';
 
-const FormSchema = z.object({
-  content: z.string().min(1),
-});
-
+const FormSchema = z.object({ content: z.string().min(1) });
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 const TodoForm = () => {
@@ -31,10 +29,12 @@ const TodoForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="todo-content">
-        Content
+        Todo Content:
         <input type="text" id="todo-content" {...register('content')} />
       </label>
-      <button>Add</button>
+      <button>
+        <TbPlus />
+      </button>
     </form>
   );
 };

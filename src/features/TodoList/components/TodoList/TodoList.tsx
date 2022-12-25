@@ -13,7 +13,7 @@ const TodoList = () => {
   if (isError) return <pre>{JSON.stringify(error)}</pre>;
 
   return (
-    <div>
+    <div className="w-2/5 p-4 shadow-lg">
       <TodoForm />
       {data.map((todo: Todo) => (
         <TodoItem key={todo.id} todo={todo} />
