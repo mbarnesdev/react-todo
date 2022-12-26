@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllTodos } from '../services/fetchAllTodos';
+import { fetchAllTodos } from '@/features/TodoList';
 
 export const useFetchTodos = () => {
   const { data, isLoading, isError, error } = useQuery(

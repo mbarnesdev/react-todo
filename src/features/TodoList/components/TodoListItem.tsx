@@ -1,4 +1,5 @@
 import { TbTrash } from 'react-icons/tb';
+import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
 import cn from 'classnames';
 import type { Todo } from '@/features/TodoList';
 import type { FC } from 'react';
@@ -14,7 +15,14 @@ interface ITodoListItemProps {
 const TodoListItem: FC<ITodoListItemProps> = (props) => {
   const { content, completed } = props.todo;
 
-  const contentClassnames = cn('cursor-pointer select-none', {
+  const containerClassnames = cn(
+    'flex flex-row m-2 p-2 border border-gray-600 justify-between',
+    {
+      'bg-green-500': completed,
+    },
+  );
+
+  const contentClassnames = cn('select-none', {
     'todo-completed': completed,
   });
 
@@ -24,15 +32,24 @@ const TodoListItem: FC<ITodoListItemProps> = (props) => {
   const handleRemoveTodo = () => props.removeTodo(props.todo);
 
   return (
-    <div className="flex flex-row m-2 p-2 border border-gray-600 justify-between">
-      <p className={contentClassnames} onClick={handleUpdateTodo}>
-        {content}
-      </p>
-      {props.deletable && (
-        <button onClick={handleRemoveTodo}>
-          <TbTrash />
-        </button>
-      )}
+    <div className={containerClassnames}>
+      <p className={contentClassnames}>{content}</p>
+      <div>
+        {props.checkable && (
+          <button onClick={handleUpdateTodo}>
+            {props.todo.completed ? (
+              <ImCheckboxChecked />
+            ) : (
+              <ImCheckboxUnchecked />
+            )}
+          </button>
+        )}
+        {props.deletable && (
+          <button onClick={handleRemoveTodo}>
+            <TbTrash />
+          </button>
+        )}
+      </div>
     </div>
   );
 };
