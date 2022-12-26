@@ -1,46 +1,35 @@
-import { useContext } from 'react';
 import TodoListItem from './TodoListItem';
-import { TodoListContext } from '@/features/TodoList';
+import { useTodoListContext } from '@/features/TodoList';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import type { FC } from 'react';
-import type { Todo, ITodoListEditModalProps } from '@/features/TodoList';
-import TodoListEditModal from './TodoListEditModal';
+import type { Todo } from '@/features/TodoList';
 
 export interface ITodoListItemsProps {}
 
-interface ITodoListComposition {
-  EditModal: FC<ITodoListEditModalProps>;
-}
-
-const TodoListItems: FC<ITodoListItemsProps> & ITodoListComposition = (
-  props,
-) => {
+const TodoListItems: FC<ITodoListItemsProps> = (props) => {
   const {
     data: todos,
     mutateRemove,
     mutateUpdateCompletion,
-    mutateUpdateContent,
-  } = useContext<any>(TodoListContext);
+  } = useTodoListContext();
 
-  const [parent] = useAutoAnimate<HTMLDivElement>();
+  const [parent] = useAutoAnimate<HTMLDivElement>({
+    duration: 250,
+    easing: 'linear',
+  });
 
   return (
-    <>
-      <TodoListItems.EditModal />
-      <div ref={parent}>
-        {todos.map((todo: Todo) => (
-          <TodoListItem
-            key={todo.id}
-            todo={todo}
-            removeTodo={mutateRemove}
-            updateTodoCompleted={mutateUpdateCompletion}
-            updateTodoContent={mutateUpdateContent}
-          />
-        ))}
-      </div>
-    </>
+    <div ref={parent}>
+      {todos?.map((todo: Todo) => (
+        <TodoListItem
+          key={todo.id}
+          todo={todo}
+          removeTodo={mutateRemove}
+          updateTodoCompleted={mutateUpdateCompletion}
+        />
+      ))}
+    </div>
   );
 };
 
-TodoListItems.EditModal = TodoListEditModal;
 export default TodoListItems;

@@ -1,7 +1,4 @@
-import { useContext } from 'react';
-import { TodoListContext } from '@/features/TodoList';
 import {
-  MdOutlineEdit,
   MdOutlineRemoveCircleOutline,
   MdCheckBoxOutlineBlank,
   MdOutlineCheckBox,
@@ -14,27 +11,16 @@ interface ITodoListItemProps {
   todo: Todo;
   removeTodo: (id: string) => void;
   updateTodoCompleted: ({ id, completed }: Omit<Todo, 'content'>) => void;
-  updateTodoContent: ({ id, content }: Omit<Todo, 'completed'>) => void;
 }
 
 const TodoListItem: FC<ITodoListItemProps> = (props) => {
-  const { setEditingTodo, handleModalOpen } = useContext<any>(TodoListContext);
   const { id, content, completed } = props.todo;
 
   const handleUpdateTodoCompleted = () =>
     props.updateTodoCompleted({ id, completed: !completed });
   const handleRemoveTodo = () => props.removeTodo(props.todo.id);
 
-  const contentClassnames = cn('select-none', {
-    'todo-completed': completed,
-  });
-
-  const handleEditTodo = () => {
-    setEditingTodo(props.todo);
-    handleModalOpen();
-  };
-
-  const iconSize = 30;
+  const contentClassnames = cn('select-none', { 'todo-completed': completed });
 
   return (
     <div className="p-4 m-8 shadow-md flex flex-row justify-between items-center">
@@ -42,16 +28,13 @@ const TodoListItem: FC<ITodoListItemProps> = (props) => {
       <div className="flex flex-row justify-center items-center gap-2">
         <button onClick={handleUpdateTodoCompleted}>
           {props.todo.completed ? (
-            <MdOutlineCheckBox size={iconSize} />
+            <MdOutlineCheckBox size={35} />
           ) : (
-            <MdCheckBoxOutlineBlank size={iconSize} />
+            <MdCheckBoxOutlineBlank size={35} />
           )}
         </button>
         <button onClick={handleRemoveTodo}>
-          <MdOutlineRemoveCircleOutline size={iconSize} color={'red'} />
-        </button>
-        <button onClick={handleEditTodo}>
-          <MdOutlineEdit size={iconSize} />
+          <MdOutlineRemoveCircleOutline size={35} color={'red'} />
         </button>
       </div>
     </div>

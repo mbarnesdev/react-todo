@@ -1,16 +1,10 @@
-import cn from 'classnames';
 import { TodoList } from './features/TodoList';
-import { useAtom } from 'jotai';
-import { isAppBlurredAtom } from '@/atoms';
 
 const App = () => {
-  const [isAppBlurred] = useAtom(isAppBlurredAtom);
-  const appContainerClassnames = cn({ 'blur-md': isAppBlurred });
-
   return (
-    <div className={appContainerClassnames}>
+    <div className="max-w-lg absolute m-auto left-0 right-0">
       <TodoList>
-        <TodoList.AddForm />
+        <TodoList.Form />
         <TodoList.Items />
       </TodoList>
     </div>

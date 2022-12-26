@@ -2,9 +2,7 @@ export { default as TodoList } from './components/TodoList';
 
 /* COMPONENTS AND PROP INTERFACES */
 export * from './components/TodoListItems';
-export * from './components/TodoListAddForm';
-export * from './components/TodoListEditForm';
-export * from './components/TodoListEditModal';
+export * from './components/TodoListForm';
 export * from './components/TodoList';
 
 /* CONTEXT */
@@ -17,6 +15,7 @@ export * from './hooks/useUpdateTodoCompleted';
 export * from './hooks/useUpdateTodoContent';
 export * from './hooks/useRemoveTodo';
 export * from './hooks/useInvalidateFetchAllTodos';
+export * from './hooks/useTodoListContext';
 
 /* SERVICES */
 export * from './services/addTodo';
