@@ -2,9 +2,12 @@ import { TodoList } from '@/features/TodoList';
 
 const App = () => {
   return (
-    <div className="w-full min-h-screen flex flex-row justify-center items-center">
-      <TodoList />
-    </div>
+    <TodoList
+      initialData={[{ id: '0001', content: 'Feed the cats', completed: false }]}
+    >
+      <TodoList.Form />
+      <TodoList.Items deletable checkable />
+    </TodoList>
   );
 };
 
