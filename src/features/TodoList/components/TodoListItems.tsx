@@ -11,8 +11,11 @@ export interface ITodoListItemsProps {
 }
 
 const TodoListItems: FC<ITodoListItemsProps> = (props) => {
-  const { todos, toggleTodoCompleted, removeTodo } =
-    useContext<any>(TodoListContext);
+  const {
+    data: todos,
+    mutateRemove,
+    mutateUpdateCompletion,
+  } = useContext<any>(TodoListContext);
 
   return (
     <div>
@@ -22,8 +25,8 @@ const TodoListItems: FC<ITodoListItemsProps> = (props) => {
           todo={todo}
           deletable={props.deletable}
           checkable={props.checkable}
-          toggleTodoCompleted={toggleTodoCompleted}
-          removeTodo={removeTodo}
+          removeTodo={mutateRemove}
+          updateTodo={mutateUpdateCompletion}
         />
       ))}
     </div>

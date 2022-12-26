@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 import type { Todo } from '@/features/TodoList';
 
-export interface ITodoListContext {
-  todos: Todo[];
-  toggleTodoCompleted: (todo: Todo) => void;
-  addTodo: (todo: Todo) => void;
-  removeTodo: (todo: Todo) => void;
+interface ITodoListContext {
+  data: any;
+  mutateAdd: (value: Partial<Todo>) => void;
+  mutateRemove: (value: Todo) => void;
+  mutateUpdateCompletion: (value: Todo) => void;
 }
 
 export const TodoListContext = createContext<ITodoListContext | undefined>(

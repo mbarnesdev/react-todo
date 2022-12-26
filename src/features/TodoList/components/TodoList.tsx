@@ -1,9 +1,14 @@
-import { useState } from 'react';
 import TodoListForm from './TodoListForm';
 import TodoListItems from './TodoListItems';
 import { TodoListContext } from '@/features/TodoList';
+import {
+  useFetchTodos,
+  useAddTodo,
+  useRemoveTodo,
+  useUpdateTodo,
+} from '@/features/TodoList';
 import type { FC, ReactNode } from 'react';
-import type { ITodoListItemsProps, Todo } from '@/features/TodoList';
+import type { ITodoListItemsProps } from '@/features/TodoList';
 
 interface ITodoListComposition {
   Form: FC;
@@ -12,37 +17,22 @@ interface ITodoListComposition {
 
 interface ITodoListProps {
   children: ReactNode;
-  initialData?: Todo[];
 }
 
-/**
- * explore the option of holding the main fetch query below and supplying
- * todos +  handler methods in context value
- */
 const TodoList: React.FC<ITodoListProps> & ITodoListComposition = (props) => {
-  const [todos, setTodos] = useState<Todo[]>(props.initialData || []);
+  const { data, isLoading, isError } = useFetchTodos();
 
-  const toggleTodoCompleted = (todo: Todo) =>
-    setTodos((prevTodos: Todo[]) =>
-      prevTodos.map((currTodo: Todo) =>
-        currTodo.id === todo.id
-          ? { ...currTodo, completed: !currTodo.completed }
-          : currTodo,
-      ),
-    );
+  const { mutateAdd } = useAddTodo();
+  const { mutateRemove } = useRemoveTodo();
+  const { mutateUpdateCompletion } = useUpdateTodo();
 
-  const addTodo = (todo: Todo) =>
-    setTodos((prevTodos: Todo[]) => [...prevTodos, todo]);
+  if (isLoading) return <p>Loading...</p>;
 
-  const removeTodo = (todo: Todo) => {
-    setTodos((prevTodos: Todo[]) =>
-      prevTodos.filter((currTodo: Todo) => !(currTodo.id === todo.id)),
-    );
-  };
+  if (isError) return <p>Error...</p>;
 
   return (
     <TodoListContext.Provider
-      value={{ todos, toggleTodoCompleted, addTodo, removeTodo }}
+      value={{ data, mutateAdd, mutateRemove, mutateUpdateCompletion }}
     >
       {props.children}
     </TodoListContext.Provider>

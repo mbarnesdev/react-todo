@@ -9,19 +9,15 @@ import type { FC } from 'react';
 const FormSchema = z.object({ content: z.string().min(1) });
 type FormSchemaType = z.infer<typeof FormSchema>;
 
-const TodoListForm: FC = (props) => {
+const TodoListForm: FC = () => {
   const { register, handleSubmit, reset } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
 
-  const { addTodo } = useContext<any>(TodoListContext);
+  const { mutateAdd } = useContext<any>(TodoListContext);
 
   const onSubmit = (data: FormSchemaType) => {
-    addTodo({
-      id: Date.now(),
-      content: data.content,
-      completed: false,
-    });
+    mutateAdd(data);
     reset();
   };
 

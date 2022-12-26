@@ -7,8 +7,8 @@ interface ITodoListItemProps {
   todo: Todo;
   checkable?: boolean;
   deletable?: boolean;
-  toggleTodoCompleted: (todo: Todo) => void;
-  removeTodo: (todo: Todo) => void;
+  removeTodo: (value: Todo) => void;
+  updateTodo: (value: Todo) => void;
 }
 
 const TodoListItem: FC<ITodoListItemProps> = (props) => {
@@ -18,17 +18,18 @@ const TodoListItem: FC<ITodoListItemProps> = (props) => {
     'todo-completed': completed,
   });
 
-  const handleTodoContentClicked = () => {
-    if (props.checkable) props.toggleTodoCompleted(props.todo);
+  const handleUpdateTodo = () => {
+    if (props.checkable) props.updateTodo(props.todo);
   };
-  const handleTodoRemoveButtonClicked = () => props.removeTodo(props.todo);
+  const handleRemoveTodo = () => props.removeTodo(props.todo);
+
   return (
     <div className="flex flex-row m-2 p-2 border border-gray-600 justify-between">
-      <p className={contentClassnames} onClick={handleTodoContentClicked}>
+      <p className={contentClassnames} onClick={handleUpdateTodo}>
         {content}
       </p>
       {props.deletable && (
-        <button onClick={handleTodoRemoveButtonClicked}>
+        <button onClick={handleRemoveTodo}>
           <TbTrash />
         </button>
       )}
