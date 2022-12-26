@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import TodoListAddForm from './TodoListAddForm';
 import TodoListItems from './TodoListItems';
-import TodoListEditModal from './TodoListEditModal';
 import {
   TodoListContext,
   useFetchTodos,
@@ -16,7 +15,6 @@ import { isAppBlurredAtom } from '@/atoms';
 import type {
   ITodoListItemsProps,
   ITodoListAddFormProps,
-  ITodoListEditModalProps,
   ITodoListEditFormProps,
   Todo,
 } from '@/features/TodoList';
@@ -26,7 +24,6 @@ interface ITodoListComposition {
   AddForm: FC<ITodoListAddFormProps>;
   EditForm: FC<ITodoListEditFormProps>;
   Items: FC<ITodoListItemsProps>;
-  EditModal: FC<ITodoListEditModalProps>;
 }
 
 interface ITodoListProps {
@@ -88,6 +85,5 @@ const TodoList: React.FC<ITodoListProps> & ITodoListComposition = (props) => {
 TodoList.AddForm = TodoListAddForm;
 TodoList.EditForm = TodoListEditForm;
 TodoList.Items = TodoListItems;
-TodoList.EditModal = TodoListEditModal;
 
 export default TodoList;

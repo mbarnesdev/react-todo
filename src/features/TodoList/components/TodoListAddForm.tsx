@@ -3,6 +3,7 @@ import { TodoListContext } from '../context/todoListContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import type { FC } from 'react';
 
 const TodoListAddFormSchema = z.object({ content: z.string().min(1) });
@@ -25,7 +26,9 @@ const TodoListAddForm: FC<ITodoListAddFormProps> = (props) => {
   return (
     <form onSubmit={handleSubmit(onAddFormSubmit)}>
       <input type="text" {...register('content')} />
-      <button>Add</button>
+      <button>
+        <MdOutlineAddCircleOutline />
+      </button>
     </form>
   );
 };

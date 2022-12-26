@@ -10,9 +10,8 @@ const App = () => {
   return (
     <div className={appContainerClassnames}>
       <TodoList>
-        <TodoList.EditModal />
-        <TodoList.Items />
         <TodoList.AddForm />
+        <TodoList.Items />
       </TodoList>
     </div>
   );

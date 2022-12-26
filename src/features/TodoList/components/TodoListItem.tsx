@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { TodoListContext } from '@/features/TodoList';
 import {
-  ImCheckboxChecked,
-  ImCheckboxUnchecked,
-  ImBin,
-  ImPencil,
-} from 'react-icons/im';
+  MdOutlineEdit,
+  MdOutlineRemoveCircleOutline,
+  MdCheckBoxOutlineBlank,
+  MdOutlineCheckBox,
+} from 'react-icons/md';
 import cn from 'classnames';
 import type { Todo } from '@/features/TodoList';
 import type { FC } from 'react';
@@ -25,13 +25,6 @@ const TodoListItem: FC<ITodoListItemProps> = (props) => {
     props.updateTodoCompleted({ id, completed: !completed });
   const handleRemoveTodo = () => props.removeTodo(props.todo.id);
 
-  const containerClassnames = cn(
-    'flex flex-row m-2 p-2 border border-gray-600 justify-between',
-    {
-      'bg-green-500': completed,
-    },
-  );
-
   const contentClassnames = cn('select-none', {
     'todo-completed': completed,
   });
@@ -41,22 +34,24 @@ const TodoListItem: FC<ITodoListItemProps> = (props) => {
     handleModalOpen();
   };
 
+  const iconSize = 30;
+
   return (
-    <div className={containerClassnames}>
+    <div className="p-4 m-8 shadow-md flex flex-row justify-between items-center">
       <p className={contentClassnames}>{content}</p>
-      <div>
+      <div className="flex flex-row justify-center items-center gap-2">
         <button onClick={handleUpdateTodoCompleted}>
           {props.todo.completed ? (
-            <ImCheckboxChecked />
+            <MdOutlineCheckBox size={iconSize} />
           ) : (
-            <ImCheckboxUnchecked />
+            <MdCheckBoxOutlineBlank size={iconSize} />
           )}
         </button>
         <button onClick={handleRemoveTodo}>
-          <ImBin />
+          <MdOutlineRemoveCircleOutline size={iconSize} color={'red'} />
         </button>
         <button onClick={handleEditTodo}>
-          <ImPencil />
+          <MdOutlineEdit size={iconSize} />
         </button>
       </div>
     </div>
