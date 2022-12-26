@@ -1,35 +1,31 @@
 import { useContext } from 'react';
-import { TodoListContext } from '@/features/TodoList';
 import TodoListItem from './TodoListItem';
+import { TodoListContext } from '@/features/TodoList';
 import type { FC } from 'react';
 import type { Todo } from '@/features/TodoList';
 
-export interface ITodoListItemsProps {
-  deletable?: boolean;
-  checkable?: boolean;
-  editable?: boolean;
-}
+export interface ITodoListItemsProps {}
 
 const TodoListItems: FC<ITodoListItemsProps> = (props) => {
   const {
     data: todos,
     mutateRemove,
     mutateUpdateCompletion,
+    mutateUpdateContent,
   } = useContext<any>(TodoListContext);
 
   return (
-    <div>
+    <>
       {todos.map((todo: Todo) => (
         <TodoListItem
           key={todo.id}
           todo={todo}
-          deletable={props.deletable}
-          checkable={props.checkable}
           removeTodo={mutateRemove}
-          updateTodo={mutateUpdateCompletion}
+          updateTodoCompleted={mutateUpdateCompletion}
+          updateTodoContent={mutateUpdateContent}
         />
       ))}
-    </div>
+    </>
   );
 };
 

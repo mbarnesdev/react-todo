@@ -1,18 +1,32 @@
-import TodoListForm from './TodoListForm';
+import { useState } from 'react';
+import TodoListAddForm from './TodoListAddForm';
 import TodoListItems from './TodoListItems';
-import { TodoListContext } from '@/features/TodoList';
+import TodoListEditModal from './TodoListEditModal';
 import {
+  TodoListContext,
   useFetchTodos,
   useAddTodo,
   useRemoveTodo,
-  useUpdateTodo,
+  useUpdateTodoCompleted,
+  useUpdateTodoContent,
+} from '@/features/TodoList';
+import TodoListEditForm from './TodoListEditForm';
+import { useAtom } from 'jotai';
+import { isAppBlurredAtom } from '@/atoms';
+import type {
+  ITodoListItemsProps,
+  ITodoListAddFormProps,
+  ITodoListEditModalProps,
+  ITodoListEditFormProps,
+  Todo,
 } from '@/features/TodoList';
 import type { FC, ReactNode } from 'react';
-import type { ITodoListItemsProps } from '@/features/TodoList';
 
 interface ITodoListComposition {
-  Form: FC;
+  AddForm: FC<ITodoListAddFormProps>;
+  EditForm: FC<ITodoListEditFormProps>;
   Items: FC<ITodoListItemsProps>;
+  EditModal: FC<ITodoListEditModalProps>;
 }
 
 interface ITodoListProps {
@@ -20,26 +34,60 @@ interface ITodoListProps {
 }
 
 const TodoList: React.FC<ITodoListProps> & ITodoListComposition = (props) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [, setIsAppBlurred] = useAtom(isAppBlurredAtom);
+
   const { data, isLoading, isError } = useFetchTodos();
 
   const { mutateAdd } = useAddTodo();
   const { mutateRemove } = useRemoveTodo();
-  const { mutateUpdateCompletion } = useUpdateTodo();
+  const { mutateUpdateCompletion } = useUpdateTodoCompleted();
+  const { mutateUpdateContent } = useUpdateTodoContent();
+
+  const handleModalOpen = () => {
+    setIsEditing(true);
+    setIsAppBlurred(true);
+    setIsEditModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsEditing(false);
+    setEditingTodo(null);
+    setIsAppBlurred(false);
+    setIsEditModalOpen(false);
+  };
 
   if (isLoading) return <p>Loading...</p>;
-
   if (isError) return <p>Error...</p>;
 
   return (
     <TodoListContext.Provider
-      value={{ data, mutateAdd, mutateRemove, mutateUpdateCompletion }}
+      value={{
+        data,
+        mutateAdd,
+        mutateRemove,
+        mutateUpdateCompletion,
+        mutateUpdateContent,
+        isEditModalOpen,
+        setIsEditModalOpen,
+        isEditing,
+        setIsEditing,
+        editingTodo,
+        setEditingTodo,
+        handleModalClose,
+        handleModalOpen,
+      }}
     >
       {props.children}
     </TodoListContext.Provider>
   );
 };
 
-TodoList.Form = TodoListForm;
+TodoList.AddForm = TodoListAddForm;
+TodoList.EditForm = TodoListEditForm;
 TodoList.Items = TodoListItems;
+TodoList.EditModal = TodoListEditModal;
 
 export default TodoList;

@@ -1,16 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTodo } from '@/features/TodoList';
+import { useMutation } from '@tanstack/react-query';
+import { addTodo, useInvalidateFetchAllTodos } from '@/features/TodoList';
 import type { Todo } from '@/features/TodoList';
 
 export const useAddTodo = () => {
-  const queryClient = useQueryClient();
+  const { invalidateFetchAllTodos } = useInvalidateFetchAllTodos();
 
   const { mutate: mutateAdd } = useMutation(
     (todo: Partial<Todo>) => addTodo(todo),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['fetch-all-todos'] });
-      },
+      onSuccess: () => invalidateFetchAllTodos(),
     },
   );
 

@@ -9,3 +9,10 @@
 .todo-completed {
   text-decoration: line-through;
 }
+
+.inset-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
