@@ -1,8 +1,12 @@
-import type { FC, ReactNode, HTMLAttributes } from 'react';
 import './Icon.scss';
+import type {
+  FC,
+  ReactNode,
+  HTMLAttributes,
+  ButtonHTMLAttributes,
+} from 'react';
 
-interface IIconProps {
-  onClick?: () => void;
+interface IIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
