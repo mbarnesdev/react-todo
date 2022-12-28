@@ -1,28 +1,16 @@
+/* COMPONENTS */
 export { default as TodoList } from './components/TodoList';
+export { default as TodoListForm } from './components/TodoListForm';
+export { default as TodoListItems } from './components/TodoListItems';
+export { default as TodoListItem } from './components/TodoListItem';
 
-/* COMPONENTS AND PROP INTERFACES */
-export * from './components/TodoListItems';
-export * from './components/TodoListForm';
-export * from './components/TodoList';
+/* PROP INTERFACES */
+export type { ITodoListFormProps } from './components/TodoListForm';
+export type { ITodoListItemsProps } from './components/TodoListItems';
 
-/* CONTEXT */
-export * from './context/todoListContext';
-
-/* HOOKS */
-export * from './hooks/useAddTodo';
-export * from './hooks/useFetchTodos';
-export * from './hooks/useUpdateTodoCompleted';
-export * from './hooks/useUpdateTodoContent';
-export * from './hooks/useRemoveTodo';
-export * from './hooks/useInvalidateFetchAllTodos';
-export * from './hooks/useTodoListContext';
-
-/* SERVICES */
-export * from './services/addTodo';
-export * from './services/fetchAllTodos';
-export * from './services/updateTodoCompleted';
-export * from './services/updateTodoContent';
-export * from './services/removeTodo';
+/* REDUX */
+export { default as todoListSliceReducer } from './slices/todoListSlice';
+export * from './slices/todoListSlice';
 
 /* TYPES */
 export * from './types';

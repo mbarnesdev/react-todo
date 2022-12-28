@@ -1,34 +1,57 @@
-import TodoListItem from './TodoListItem';
-import { useTodoListContext } from '@/features/TodoList';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
-import type { FC } from 'react';
+import { TodoListItem } from '@/features/TodoList';
+import { useDispatch, useSelector } from 'react-redux';
+import { swapItems } from '@/features/TodoList';
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  PointerSensor,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import type { RootState } from '@/store';
+import type { DragEndEvent } from '@dnd-kit/core';
 import type { Todo } from '@/features/TodoList';
+import type { FC } from 'react';
 
 export interface ITodoListItemsProps {}
 
-const TodoListItems: FC<ITodoListItemsProps> = (props) => {
-  const {
-    data: todos,
-    mutateRemove,
-    mutateUpdateCompletion,
-  } = useTodoListContext();
+const TodoListItems: FC<ITodoListItemsProps> = () => {
+  const todos = useSelector((state: RootState) => state.todoList.todos);
+  const dispatch = useDispatch();
 
-  const [parent] = useAutoAnimate<HTMLDivElement>({
-    duration: 250,
-    easing: 'linear',
-  });
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id)
+      dispatch(
+        swapItems({
+          activeID: active.id as string,
+          overID: over?.id as string,
+        }),
+      );
+  };
+  const sensors = [useSensor(PointerSensor)];
+
+  if (!Array.isArray(todos) || !todos.length) return <p>No todos...</p>;
 
   return (
-    <div ref={parent}>
-      {todos?.map((todo: Todo) => (
-        <TodoListItem
-          key={todo.id}
-          todo={todo}
-          removeTodo={mutateRemove}
-          updateTodoCompleted={mutateUpdateCompletion}
-        />
-      ))}
-    </div>
+    <DndContext
+      sensors={sensors}
+      modifiers={[restrictToVerticalAxis]}
+      onDragEnd={handleDragEnd}
+      collisionDetection={closestCenter}
+    >
+      <SortableContext
+        items={todos.map(({ id }: Todo) => id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {todos?.map((todo: Todo) => (
+          <TodoListItem key={todo.id} {...todo} />
+        ))}
+      </SortableContext>
+    </DndContext>
   );
 };
 

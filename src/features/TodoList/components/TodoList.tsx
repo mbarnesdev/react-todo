@@ -1,16 +1,8 @@
-import { useMemo } from 'react';
 import TodoListForm from './TodoListForm';
 import TodoListItems from './TodoListItems';
-import {
-  TodoListContext,
-  useFetchTodos,
-  useAddTodo,
-  useRemoveTodo,
-  useUpdateTodoCompleted,
-} from '@/features/TodoList';
 import type {
-  ITodoListItemsProps,
   ITodoListFormProps,
+  ITodoListItemsProps,
 } from '@/features/TodoList';
 import type { FC, ReactNode } from 'react';
 
@@ -23,31 +15,8 @@ interface ITodoListProps {
   children: ReactNode;
 }
 
-const TodoList: React.FC<ITodoListProps> & ITodoListComposition = (props) => {
-  const { data, isLoading, isError } = useFetchTodos();
-
-  const { mutateAdd } = useAddTodo();
-  const { mutateRemove } = useRemoveTodo();
-  const { mutateUpdateCompletion } = useUpdateTodoCompleted();
-
-  const value = useMemo(
-    () => ({
-      data,
-      mutateAdd,
-      mutateRemove,
-      mutateUpdateCompletion,
-    }),
-    [data, mutateAdd, mutateRemove, mutateUpdateCompletion],
-  );
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error...</p>;
-
-  return (
-    <TodoListContext.Provider value={value}>
-      {props.children}
-    </TodoListContext.Provider>
-  );
+const TodoList: FC<ITodoListProps> & ITodoListComposition = ({ children }) => {
+  return <>{children}</>;
 };
 
 TodoList.Form = TodoListForm;

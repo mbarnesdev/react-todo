@@ -1,41 +1,65 @@
-import {
-  MdOutlineRemoveCircleOutline,
-  MdCheckBoxOutlineBlank,
-  MdOutlineCheckBox,
-} from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { deleteTodo, updateTodo } from '@/features/TodoList';
+import { Icon } from '@/components';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { MdDelete, MdOutlineDragIndicator, MdEdit } from 'react-icons/md';
 import cn from 'classnames';
-import type { Todo } from '@/features/TodoList';
 import type { FC } from 'react';
 
 interface ITodoListItemProps {
-  todo: Todo;
-  removeTodo: (id: string) => void;
-  updateTodoCompleted: ({ id, completed }: Omit<Todo, 'content'>) => void;
+  id: string;
+  content: string;
+  isCompleted: boolean;
 }
 
-const TodoListItem: FC<ITodoListItemProps> = (props) => {
-  const { id, content, completed } = props.todo;
+const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
+  const dispatch = useDispatch();
 
-  const handleUpdateTodoCompleted = () =>
-    props.updateTodoCompleted({ id, completed: !completed });
-  const handleRemoveTodo = () => props.removeTodo(props.todo.id);
+  const handleDelete = () => dispatch(deleteTodo({ id }));
+  const handleUpdate = () => dispatch(updateTodo({ id }));
 
-  const contentClassnames = cn('select-none', { 'todo-completed': completed });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? '100' : 'auto',
+    opacity: isDragging ? 0.45 : 1,
+  };
+
+  const contentClassnames = cn('cursor-pointer select-none', {
+    'line-through': isCompleted,
+  });
 
   return (
-    <div className="p-4 m-8 shadow-md flex flex-row justify-between items-center">
-      <p className={contentClassnames}>{content}</p>
-      <div className="flex flex-row justify-center items-center gap-2">
-        <button onClick={handleUpdateTodoCompleted}>
-          {props.todo.completed ? (
-            <MdOutlineCheckBox size={35} />
-          ) : (
-            <MdCheckBoxOutlineBlank size={35} />
-          )}
-        </button>
-        <button onClick={handleRemoveTodo}>
-          <MdOutlineRemoveCircleOutline size={35} color={'red'} />
-        </button>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="p-4 m-4 shadow-md flex flex-row justify-between items-center bg-white"
+    >
+      <div className="flex-1 flex flex-row justify-start items-center gap-2">
+        <Icon {...attributes} {...listeners}>
+          <MdOutlineDragIndicator />
+        </Icon>
+        <p className={contentClassnames} onClick={handleUpdate}>
+          {content}
+        </p>
+      </div>
+      <div className="flex flex-row gap-1">
+        <Icon>
+          <MdEdit />
+        </Icon>
+        <Icon onClick={handleDelete}>
+          <MdDelete />
+        </Icon>
       </div>
     </div>
   );
