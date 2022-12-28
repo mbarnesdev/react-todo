@@ -19,6 +19,10 @@ const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
   const handleDelete = () => dispatch(deleteTodo({ id }));
   const handleUpdate = () => dispatch(updateTodo({ id }));
 
+  const handleEdit = () => {
+    // modal code here
+  };
+
   const {
     attributes,
     listeners,
@@ -54,7 +58,7 @@ const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
         </p>
       </div>
       <div className="flex flex-row gap-1">
-        <Icon>
+        <Icon onClick={handleEdit}>
           <MdEdit />
         </Icon>
         <Icon onClick={handleDelete}>
