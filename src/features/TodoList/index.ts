@@ -1,7 +1,5 @@
 /* COMPONENTS */
 export { default as TodoList } from './components/TodoList';
-export { default as TodoListForm } from './components/TodoListForm';
-export { default as TodoListItems } from './components/TodoListItems';
 export { default as TodoListItem } from './components/TodoListItem';
 
 /* PROP INTERFACES */
