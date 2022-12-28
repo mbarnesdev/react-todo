@@ -1,5 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { deleteTodo, updateTodo } from '@/features/TodoList';
+import {
+  deleteTodo,
+  updateTodo,
+  useTodoListContext,
+} from '@/features/TodoList';
+import { Modal } from '@/features/Modal';
 import { Icon } from '@/components';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -14,14 +19,12 @@ interface ITodoListItemProps {
 }
 
 const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
+  const { openModal } = useTodoListContext();
   const dispatch = useDispatch();
 
   const handleDelete = () => dispatch(deleteTodo({ id }));
   const handleUpdate = () => dispatch(updateTodo({ id }));
-
-  const handleEdit = () => {
-    // modal code here
-  };
+  const handleEdit = () => openModal();
 
   const {
     attributes,

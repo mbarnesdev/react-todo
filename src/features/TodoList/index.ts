@@ -10,5 +10,11 @@ export type { ITodoListItemsProps } from './components/TodoListItems';
 export { default as todoListSliceReducer } from './slices/todoListSlice';
 export * from './slices/todoListSlice';
 
+/* CONTEXT */
+export * from './context/TodoListContext';
+
+/* HOOKS */
+export * from './hooks/useTodoListContext';
+
 /* TYPES */
 export * from './types';

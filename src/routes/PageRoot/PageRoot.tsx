@@ -1,5 +1,4 @@
 const Home = () => {
-  return <p>Root</p>;
-};
-
+  return <p>PageRoot</p>
+}
 export default Home;
