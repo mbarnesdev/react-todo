@@ -1,6 +1,6 @@
 import './Icon.scss';
 import type {
-  FC,
+  FunctionComponent,
   ReactNode,
   HTMLAttributes,
   ButtonHTMLAttributes,
@@ -10,10 +10,8 @@ interface IIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-const Icon: FC<IIconProps> & HTMLAttributes<HTMLButtonElement> = ({
-  children,
-  ...restProps
-}) => {
+const Icon: FunctionComponent<IIconProps> &
+  HTMLAttributes<HTMLButtonElement> = ({ children, ...restProps }) => {
   return (
     <button className="icon" {...restProps}>
       {children}

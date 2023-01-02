@@ -1,8 +1,4 @@
-import {
-  TodoListItem,
-  swapItems,
-  useTodoListContext,
-} from '@/features/TodoList';
+import { TodoListItem, swapItems } from '@/features/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   DndContext,
@@ -18,11 +14,8 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import type { RootState } from '@/store';
 import type { DragEndEvent } from '@dnd-kit/core';
 import type { Todo } from '@/features/TodoList';
-import type { FC } from 'react';
 
-export interface ITodoListItemsProps {}
-
-const TodoListItems: FC<ITodoListItemsProps> = () => {
+const TodoListItems = () => {
   const todos = useSelector((state: RootState) => state.todoList.todos);
   const dispatch = useDispatch();
 

@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
 import { ReduxProvider } from '@/providers';
-import { AppRouter } from '@/components';
+import App from './App';
 import './index.css';
 
 createRoot(document.getElementById('root') as HTMLDivElement).render(
   <ReduxProvider>
-    <AppRouter />
+    <App />
   </ReduxProvider>,
 );

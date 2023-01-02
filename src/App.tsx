@@ -1,6 +1,6 @@
 import { TodoList } from '@/features/TodoList';
 
-const TodoListPage = () => {
+const App = () => {
   return (
     <TodoList>
       <TodoList.Form />
@@ -9,4 +9,4 @@ const TodoListPage = () => {
   );
 };
 
-export default TodoListPage;
+export default App;

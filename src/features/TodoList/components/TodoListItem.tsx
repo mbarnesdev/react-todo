@@ -1,16 +1,15 @@
 import { useDispatch } from 'react-redux';
 import {
   deleteTodo,
-  updateTodo,
+  updateTodoCompleted,
   useTodoListContext,
 } from '@/features/TodoList';
-import { Modal } from '@/features/Modal';
 import { Icon } from '@/components';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { MdDelete, MdOutlineDragIndicator, MdEdit } from 'react-icons/md';
-import cn from 'classnames';
-import type { FC } from 'react';
+import { clsx } from 'clsx';
+import type { FunctionComponent } from 'react';
 
 interface ITodoListItemProps {
   id: string;
@@ -18,13 +17,20 @@ interface ITodoListItemProps {
   isCompleted: boolean;
 }
 
-const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
-  const { openModal } = useTodoListContext();
+const TodoListItem: FunctionComponent<ITodoListItemProps> = ({
+  id,
+  content,
+  isCompleted,
+}) => {
+  const { openModal, setCurrentEditingTodo } = useTodoListContext();
   const dispatch = useDispatch();
 
   const handleDelete = () => dispatch(deleteTodo({ id }));
-  const handleUpdate = () => dispatch(updateTodo({ id }));
-  const handleEdit = () => openModal();
+  const handleUpdate = () => dispatch(updateTodoCompleted({ id }));
+  const handleEdit = () => {
+    setCurrentEditingTodo({ id, content, isCompleted });
+    openModal();
+  };
 
   const {
     attributes,
@@ -42,7 +48,7 @@ const TodoListItem: FC<ITodoListItemProps> = ({ id, content, isCompleted }) => {
     opacity: isDragging ? 0.45 : 1,
   };
 
-  const contentClassnames = cn('cursor-pointer select-none', {
+  const contentClassnames = clsx('cursor-pointer select-none', {
     'line-through': isCompleted,
   });
 

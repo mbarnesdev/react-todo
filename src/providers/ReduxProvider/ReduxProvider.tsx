@@ -1,12 +1,14 @@
 import { Provider } from 'react-redux';
 import store from '@/store';
-import type { FC, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 
 interface IReduxProviderProps {
   children: ReactNode;
 }
 
-const RouterProvider: FC<IReduxProviderProps> = ({ children }) => {
+const RouterProvider: FunctionComponent<IReduxProviderProps> = ({
+  children,
+}) => {
   return <Provider store={store}>{children}</Provider>;
 };
 
